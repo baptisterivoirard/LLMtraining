@@ -3,10 +3,13 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+key = os.getenv("OPENAI_API_KEY")
+print(f"API key: {key}")
+
 
 client = OpenAI(
   base_url="https://openrouter.ai/api/v1",
-  api_key=os.getenv("OPEN-ROUTER-API-KEY"),
+  api_key=key,
 )
 
 completion = client.chat.completions.create(
@@ -24,5 +27,5 @@ completion = client.chat.completions.create(
   ]
 
 )
-
+print(completion)
 print(completion.choices[0].message.content)
