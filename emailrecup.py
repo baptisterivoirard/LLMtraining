@@ -3,26 +3,30 @@ import email
 from email.header import decode_header
 import sys 
 import time
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # --- Config --- à mmettre dans un .env
-IMAP_SERVER = "mail.mailo.com"
-EMAIL_ACCOUNT = "lmtraining@mailo.com"
-EMAIL_PASSWORD = "nsYMhH6p*Yd.u6G"
 
+IMAP_SERVER = os.getenv("IMAP_SERVER")
+EMAIL_ACCOUNT = os.getenv("EMAIL_ACCOUNT")
+EMAIL_PASSWORD =os.getenv("EMAIL_PASSWORD")
 
 
 
 
 def affiche_info_email(email_message):
+    mail_info = {}
     subject, encoding = decode_header(email_message["Subject"])[0]
     if isinstance(subject, bytes):
         subject = subject.decode(encoding or "utf-8")
-    print("Sujet :", subject)
+    mail_info["Sujet :"]= subject
 
     sender, encoding = decode_header(email_message["From"])[0]
     if isinstance(sender, bytes):
         sender = sender.decode(encoding or "utf-8")
-    print("Envoyeur :", sender)
+    mail_info["Envoyeur :"]= sender
 
     body = ""
     attachements={}
@@ -44,10 +48,9 @@ def affiche_info_email(email_message):
     else:
         body = email_message.get_payload(decode=True).decode()
 
-    print("Corps :", body)
-    print("pièces jointes : " , attachements)
-    return subject, sender, body, attachements
-
+    mail_info["Corps :"]= body
+    mail_info["pièces jointes : "] = attachements
+    return mail_info
 
 
 while True:
@@ -63,12 +66,15 @@ while True:
 
 
     mail_ids = messages[0].split()  # Ex: [b'1', b'2', b'3']
-
+    list_mails =[]
     for id in mail_ids:
         status, msg_data = mail.fetch(id, "(RFC822)")
         raw_email=msg_data[0][1]
         email_message = email.message_from_bytes(raw_email)
-        affiche_info_email(email_message)
+        list_mails.append(affiche_info_email(email_message))
+        print("nombre de mails en attente de traitement : ", len(list_mails))
+        
+
     time.sleep(60)
 
 
