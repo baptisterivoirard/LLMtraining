@@ -6,14 +6,6 @@ import time
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-# --- Config --- à mmettre dans un .env
-
-IMAP_SERVER = os.getenv("IMAP_SERVER")
-EMAIL_ACCOUNT = os.getenv("EMAIL_ACCOUNT")
-EMAIL_PASSWORD =os.getenv("EMAIL_PASSWORD")
-
-
 
 
 def affiche_info_email(email_message):
@@ -53,15 +45,23 @@ def affiche_info_email(email_message):
     return mail_info
 
 
-while True:
+def email_recup():
+    load_dotenv()
+    # --- Config --- à mmettre dans un .env
+
+    IMAP_SERVER = os.getenv("IMAP_SERVER")
+    EMAIL_ACCOUNT = os.getenv("EMAIL_ACCOUNT")
+    EMAIL_PASSWORD =os.getenv("EMAIL_PASSWORD")
+
+
     # --- Connexion IMAP ---
     mail = imaplib.IMAP4_SSL(IMAP_SERVER)
     mail.login(EMAIL_ACCOUNT, EMAIL_PASSWORD)
 
-# --- Sélection de la boîte de réception ---
+    # --- Sélection de la boîte de réception ---
     mail.select("inbox")
 
-# --- Récupération des mails non lus (ou tous si tu veux) ---
+    # --- Récupération des mails non lus (ou tous si tu veux) ---
     status, messages = mail.search(None, "UNSEEN")  # ou "UNSEEN" pour non lus
 
 
@@ -73,9 +73,13 @@ while True:
         email_message = email.message_from_bytes(raw_email)
         list_mails.append(affiche_info_email(email_message))
         print("nombre de mails en attente de traitement : ", len(list_mails))
+        print (list_mails)
+    return list_mails
+    
+print (email_recup())
         
 
-    time.sleep(60)
+
 
 
 
