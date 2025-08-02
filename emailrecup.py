@@ -73,7 +73,6 @@ def email_recup():
         email_message = email.message_from_bytes(raw_email)
         list_mails.append(affiche_info_email(email_message))
         print("nombre de mails en attente de traitement : ", len(list_mails))
-        print (list_mails)
     return list_mails
     
 print (email_recup())
