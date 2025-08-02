@@ -74,8 +74,11 @@ def email_recup():
         list_mails.append(affiche_info_email(email_message))
         print("nombre de mails en attente de traitement : ", len(list_mails))
     return list_mails
-    
-print (email_recup())
+
+
+
+if __name__ == "__main__":
+    print (email_recup())
         
 
 
