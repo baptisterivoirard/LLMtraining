@@ -1,11 +1,12 @@
+# Importation des librairy
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-
+# Fonction qui génère une pré-réponse à un email en utilisant les info fournies dans le dictionnaire mail_info. 
 def reponse_llm (mail_info):
     load_dotenv()
-    key = os.getenv("OPENAI_API_KEY")
+    key = os.getenv("OPENAI_API_KEY") # Clé API de openrouter
 
 
 
@@ -14,6 +15,7 @@ def reponse_llm (mail_info):
     api_key=key,
     )
 
+# Prompt de base pour la génération de la réponse + les infos du mail
     prompt = [{ "role": "system",
         "content":  "You are a specialized email response assistant. Your goal is to write clear, professional, and human-like replies to emails." +
     " The user provides you with the full content of an email in dictionary format (subject, sender, body, attachments)." +
@@ -31,13 +33,15 @@ def reponse_llm (mail_info):
     completion = client.chat.completions.create(
     extra_body={},    
     model="google/gemma-3n-e4b-it:free",
-    temperature=0.9,
+    temperature=0.9, # Parametre pour gérer la créativité de la réponse
        
     messages=prompt
     )
 
     return completion.choices[0].message.content
 
+
+# Juste pour tester la fonction de génération de réponse
 if __name__ == "__main__":
     test_mail = {'Sujet :': 'Demande de rendez-vous pour un échange sur votre projet', 'Envoyeur :': 'Baptiste Rivoirard <rivoirardbaptiste2@gmail.com>', 'Corps :': 'Bonjour,\r\n\r\nJe me permets de vous contacter pour convenir d’un rendez-vous afin de\r\ndiscuter de votre projet en cours. Seriez-vous disponible cette semaine\r\npour un échange rapide par téléphone ou visioconférence ?\r\n\r\nBien cordialement,\r\nClaire Dupuis\r\n', 'pièces jointes : ': {}}
     print(reponse_llm(test_mail))

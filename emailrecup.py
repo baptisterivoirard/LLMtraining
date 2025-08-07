@@ -1,3 +1,4 @@
+# importation des librairy
 import imaplib
 import email
 from email.header import decode_header
@@ -7,7 +8,8 @@ import os
 from dotenv import load_dotenv
 
 
-
+# Fonction pour récuppérer les informations d'un mail et les mettre dans un dictionnaire (Sujet, envoyeur, corps, pièces jointes)
+#contient plusieurs fonctions pour décoder chaque partie du mail et les rendre lisible
 def affiche_info_email(email_message):
     mail_info = {}
     subject, encoding = decode_header(email_message["Subject"])[0]
@@ -44,7 +46,7 @@ def affiche_info_email(email_message):
     mail_info["pièces jointes : "] = attachements
     return mail_info
 
-
+# Fonction pour se connecter à la boite mail et récupérer les mails non lus. Chaque raw mail est décoder puis envoyer à la focntion affiche_infor_email() qui le traite
 def email_recup():
     load_dotenv()
     # --- Config --- à mmettre dans un .env
@@ -76,7 +78,7 @@ def email_recup():
     return list_mails
 
 
-
+# Juste pour tester la fontion de récupération
 if __name__ == "__main__":
     print (email_recup())
         
