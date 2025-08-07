@@ -22,5 +22,9 @@ Ce projet a été coder en python et se compose de quatres scripts principaux :
 - Pour réutiliser le code il vous faudra également crée votre propre API Key et setup votre .env.
 - De nombreuse piste d'amélioration sont envisagées par exemple intégré des fonctionalités de text to speach afin que le programme nous lise les email recu ou les réponses du LLM et du speach to text poir ajouter oralement les informations de l'utilisateur dans les placeholder afin de completement libérer l'utilisateur pendant sa session de mail et qu'il puisse le faire en marchant par exemple. 
 
-## Exemple d'utilisation
 
+## Exemple de fonctionnement
+
+Voici un aperçu de l'exécution dans le terminal :
+
+![Démo terminal](img/demo_terminal.png)
